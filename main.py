@@ -150,7 +150,6 @@ st.markdown('''
 
 # Layout
 st.markdown('<div class="center-outer"><div class="center-inner">', unsafe_allow_html=True)
-st.markdown('<div class="big-nala">NALA</div>', unsafe_allow_html=True)
 
 from streamlit_extras.stylable_container import stylable_container
 
@@ -186,13 +185,12 @@ if st.session_state.show_popup:
         z-index: 9999;
         text-align: left;
     """):
-        st.markdown("### ℹ️ Welcome to NALA")
         st.markdown("""
         NALA is an AI chatbot built to help **teenagers and young adults** learn about money, investing, and personal finance.
 
         The words and explanations are **simplified on purpose**, so they’re easy to understand even if you're just starting out.
 
-        > ⚠️ This is not professional financial advice. Always do more research or ask a trusted adult or advisor when making real money decisions.
+        > ⚠This is not professional financial advice. Always do more research or ask a trusted adult or advisor when making real money decisions.
         """)
         if st.button("Got it!", key="close_popup"):
             st.session_state.show_popup = False
