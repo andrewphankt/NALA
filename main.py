@@ -87,13 +87,25 @@ TOOLTIPS = {
 def add_tooltips(text, terms_dict):
     sorted_terms = sorted(terms_dict.keys(), key=len, reverse=True)
     for term in sorted_terms:
-        pattern = re.compile(r'\b(' + re.escape(term) + r's?)\b', re.IGNORECASE)
+        pattern = re.compile(rf'\b({re.escape(term)}s?)\b', re.IGNORECASE)
+
         def repl(match):
             matched_text = match.group(0)
-            tooltip = terms_dict[term]
+
+            # Skip if match is already inside a tooltip
+            if '<span class="tooltip-term">' in matched_text or '<span class="tooltip-text">' in matched_text:
+                return matched_text
+
+            tooltip = terms_dict[term.rstrip('s')]  # remove plural 's' for matching key
             return f'<span class="tooltip-term">{matched_text}<span class="tooltip-text">{tooltip}</span></span>'
-        text = pattern.sub(repl, text)
+
+        # Only apply replacements to text outside existing tooltips
+        parts = re.split(r'(<span class="tooltip-term">.*?</span>)', text, flags=re.DOTALL)
+        parts = [pattern.sub(repl, part) if not part.startswith('<span class="tooltip-term">') else part for part in parts]
+        text = ''.join(parts)
+
     return text
+
 
 def contains_markdown_table(text):
     lines = text.split('\n')
