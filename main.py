@@ -14,6 +14,9 @@ st.set_page_config(
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+if "has_asked" not in st.session_state:
+    st.session_state.has_asked = False
+
 # --- Finance terms dictionary ---
 TOOLTIPS = {
     "investment": "Putting your money into something to try to grow it over time.",
@@ -56,6 +59,7 @@ def contains_markdown_table(text):
         if re.match(r'^\s*\|.*\|\s*$', line) or '---' in line:
             return True
     return False
+
 
 # Inject CSS for hover tooltips
 st.markdown('''
@@ -101,8 +105,19 @@ st.markdown('<div class="center-outer"><div class="center-inner">', unsafe_allow
 st.markdown('<div class="big-nala">NALA</div>', unsafe_allow_html=True)
 user_input = st.text_input("", placeholder="Ask NALA something…")
 
+# Show welcome message on first visit
+if not st.session_state.has_asked:
+    st.markdown(
+        '<div class="response-box">Hello. I’m NALA, your investing and personal finance assistant. '
+        'You can ask me questions about money, stocks, or how investing works. '
+        'I can’t answer questions that are unrelated to finance.</div>',
+        unsafe_allow_html=True
+    )
+
+
 if user_input:
     with st.spinner("NALA is typing..."):
+        st.session_state.has_asked = True
         try:
             response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
