@@ -1,0 +1,16 @@
+# Ignore virtual environment directory
+venv/
+
+# Ignore environment file
+.env
+
+# Byte-code files
+*.pyc
+
+# IDE specific files
+.idea/
+__pycache__/
+
+# OS generated files
+.DS_Store
+Thumbs.db 
