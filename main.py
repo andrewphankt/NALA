@@ -150,24 +150,9 @@ st.markdown('''
 
 # Layout
 st.markdown('<div class="center-outer"><div class="center-inner">', unsafe_allow_html=True)
+st.markdown('<div class="big-nala">NALA</div>', unsafe_allow_html=True)
 
 from streamlit_extras.stylable_container import stylable_container
-
-st.markdown('''
-<div style="display: flex; align-items: center; justify-content: center;">
-    <div class="big-nala">NALA</div>
-    <button onclick="window.dispatchEvent(new Event('openNalaInfo'))" style="
-        margin-left: 10px;
-        background: #ffe066;
-        border: none;
-        border-radius: 50%;
-        width: 28px;
-        height: 28px;
-        font-weight: bold;
-        cursor: pointer;
-    ">?</button>
-</div>
-''', unsafe_allow_html=True)
 
 
 # Popup modal
@@ -195,18 +180,6 @@ if st.session_state.show_popup:
         if st.button("Got it!", key="close_popup"):
             st.session_state.show_popup = False
 
-# JavaScript to reopen popup when the ? button is clicked
-st.markdown('''
-<script>
-window.addEventListener('openNalaInfo', function () {
-    fetch(window.location.href, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({'show_popup': true})
-    }).then(() => window.location.reload());
-});
-</script>
-''', unsafe_allow_html=True)
 
 
 # Message history
