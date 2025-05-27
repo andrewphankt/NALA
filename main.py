@@ -96,6 +96,15 @@ st.markdown('''
     visibility: visible;
     opacity: 1;
 }
+
+.big-nala {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    color: white;
+    margin-bottom: 16px;
+}
+
 </style>
 ''', unsafe_allow_html=True)
 
