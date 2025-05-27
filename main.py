@@ -227,12 +227,13 @@ if user_input:
             assistant_message = response.choices[0].message.content
             st.session_state.messages.append({"role": "assistant", "content": assistant_message})
 
-          if contains_markdown_table(assistant_message):
-    # Don't wrap tables in a <div>, and avoid unsafe HTML
-    st.markdown(assistant_message, unsafe_allow_html=False)
-else:
-    answer_with_tooltips = add_tooltips(assistant_message, TOOLTIPS)
-    st.markdown(f'<div class="response-box">{answer_with_tooltips}</div>', unsafe_allow_html=True)
+            if contains_markdown_table(assistant_message):
+                # Don't wrap tables in a <div>, and avoid unsafe HTML
+                st.markdown(assistant_message, unsafe_allow_html=False)
+            else:
+                answer_with_tooltips = add_tooltips(assistant_message, TOOLTIPS)
+                st.markdown(f'<div class="response-box">{answer_with_tooltips}</div>', unsafe_allow_html=True)
+
 
         except Exception as e:
             st.markdown(f'<div class="response-box">⚠️ OpenAI Error: {e}</div>', unsafe_allow_html=True)
