@@ -24,7 +24,6 @@ if "has_asked" not in st.session_state:
 
 # --- Finance terms dictionary ---
 TOOLTIPS = {
-    "money": "What people use to buy things.",
     "bank": "A place to keep your money safe.",
     "savings": "Money you keep for later.",
     "income": "Money you earn from work or other sources.",
