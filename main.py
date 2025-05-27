@@ -44,7 +44,6 @@ TOOLTIPS = {
 def add_tooltips(text, terms_dict):
     sorted_terms = sorted(terms_dict.keys(), key=len, reverse=True)
     for term in sorted_terms:
-        # Use word boundaries, ignore case
         pattern = re.compile(r'\b(' + re.escape(term) + r')\b', re.IGNORECASE)
         def repl(match):
             matched_text = match.group(0)
@@ -59,7 +58,6 @@ def contains_markdown_table(text):
         if re.match(r'^\s*\|.*\|\s*$', line) or '---' in line:
             return True
     return False
-
 
 # Inject CSS for hover tooltips
 st.markdown('''
@@ -96,7 +94,6 @@ st.markdown('''
     visibility: visible;
     opacity: 1;
 }
-
 .big-nala {
     font-size: 36px;
     font-weight: 700;
@@ -104,10 +101,8 @@ st.markdown('''
     color: white;
     margin-bottom: 16px;
 }
-
 </style>
 ''', unsafe_allow_html=True)
-
 
 # Centered content
 st.markdown('<div class="center-outer"><div class="center-inner">', unsafe_allow_html=True)
@@ -135,9 +130,8 @@ if not st.session_state.has_asked:
         unsafe_allow_html=True
     )
 
-
 if user_input:
-    # Add user message to history
+    st.session_state.has_asked = True
     st.session_state.messages.append({"role": "user", "content": user_input})
 
     with st.spinner("NALA is typing..."):
@@ -147,11 +141,8 @@ if user_input:
                 messages=st.session_state.messages
             )
             assistant_message = response.choices[0].message.content
-
-            # Add assistant response to history
             st.session_state.messages.append({"role": "assistant", "content": assistant_message})
 
-            # Display the response with or without tooltips
             if contains_markdown_table(assistant_message):
                 st.markdown(f'<div class="response-box">{assistant_message}</div>', unsafe_allow_html=False)
             else:
@@ -159,3 +150,5 @@ if user_input:
                 st.markdown(f'<div class="response-box">{answer_with_tooltips}</div>', unsafe_allow_html=True)
         except Exception as e:
             st.markdown(f'<div class="response-box">⚠️ OpenAI Error: {e}</div>', unsafe_allow_html=True)
+
+st.markdown('</div></div>', unsafe_allow_html=True)
